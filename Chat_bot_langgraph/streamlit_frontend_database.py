@@ -2,6 +2,9 @@ import streamlit as st
 from langgraph_database_backend import chat_bot, retrieve_all_threads
 from langchain_core.messages import HumanMessage
 import uuid
+from dotenv import load_dotenv
+
+load_dotenv()
 
 #************************1*********** Utility Functions ******************************
 def generate_thread_id():
@@ -81,7 +84,15 @@ if user_input:
         st.text(user_input)
 
     # st.session_state -> dict -> 
-    CONFIG = {'configurable': {'thread_id': st.session_state['thread_id']}}
+    # CONFIG = {'configurable': {'thread_id': st.session_state['thread_id']}}
+
+    CONFIG = {
+        "configurable": {"thread_id": st.session_state["thread_id"]},
+        "metadata": {
+            "thread_id": st.session_state["thread_id"]
+        },
+        "run_name": "chat_turn",
+    }
 
     # first add the message to message_history
     with st.chat_message('assistant'):
